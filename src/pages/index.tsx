@@ -1,7 +1,12 @@
+import { Form } from "antd";
 import Head from "next/head";
 import Script from "next/script";
+import { Input, message } from "antd";
+import { useRouter } from "next/router";
+import Link from "next/link";
 
 export default function Home() {
+  const router = useRouter();
   return (
     <>
       <Head>
@@ -85,7 +90,7 @@ export default function Home() {
               </nav>
             </div>
           </header>
-          <section className="slider_section ">
+          {/* <section className="slider_section ">
             <div className="container">
               <div className="detail-box col-md-9 mx-auto px-0">
                 <h1>Finding Parking Lots Made Easy</h1>
@@ -97,7 +102,7 @@ export default function Home() {
                       <div className="form-group ">
                         <label>Your Name</label>
                         <div className="input-group">
-                          <input
+                          <input required
                             type="text"
                             className="form-control"
                             placeholder="Your Name"
@@ -109,7 +114,7 @@ export default function Home() {
                       <div className="form-group">
                         <label>Your Mobile Number</label>
                         <div className="input-group ">
-                          <input
+                          <input required
                             type="text"
                             className="form-control"
                             placeholder="xxxxxxxxxx"
@@ -124,6 +129,123 @@ export default function Home() {
                     </button>
                   </div>
                 </form>
+              </div>
+            </div>
+          </section> */}
+          <section className="slider_section ">
+            <div className="container">
+              <div className="detail-box col-md-9 mx-auto px-0">
+                <h1>Finding Parking Lots Made Easy</h1>
+              </div>
+              <div className="find_form_container">
+                <Form
+                  onFinish={async (data) => {
+                    console.log(data);
+                    let postData = await fetch("/api/book-slot", {
+                      method: "POST",
+                      body: JSON.stringify({
+                        name: data.name,
+                        phone: data.phone,
+                      }),
+                    });
+                    postData = await postData.json();
+                    console.log(postData);
+                    if (postData.error) {
+                      message.error(postData.message);
+                    } else {
+                      message.success(postData.message);
+                      setTimeout(() => {
+                        router.push("/dashboard");
+                      }, 1000);
+                    }
+                  }}
+                >
+                  <div className="form-row">
+                    <div className="col-md-6 px-0">
+                      <div className="form-group ">
+                        <label>Your Name</label>
+                        <div className="input-group">
+                          <Form.Item
+                            name="name"
+                            className="w-full"
+                            rules={[{ required: true }]}
+                          >
+                            <Input
+                              size="large"
+                              name="name"
+                              required
+                              type="text"
+                              placeholder="Your Name"
+                            />
+                          </Form.Item>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="col-md-6 px-0">
+                      <div className="form-group">
+                        <label>Your Mobile Number</label>
+                        <div className="input-group ">
+                          <Form.Item
+                            name="phone"
+                            className="w-full"
+                            rules={[{ required: true }]}
+                          >
+                            <Input
+                              size="large"
+                              name="name"
+                              required
+                              type="number"
+                              placeholder="9812345678"
+                            />
+                          </Form.Item>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="btn-box">
+                    <button type="submit" className="">
+                      <span>Book Now</span>
+                    </button>
+                    <Link href={"/dashboard"} className="mx-8">
+                      <button type="submit" className="">
+                        <span>Visit Dashboard</span>
+                      </button>
+                    </Link>
+                  </div>
+                </Form>
+                {/* <form action="#">
+                  <div className="form-row">
+                    <div className="col-md-4 px-0">
+                      <div className="form-group ">
+                        <label>Your Name</label>
+                        <div className="input-group">
+                          <input required
+                            type="text"
+                            className="form-control"
+                            placeholder="Your Name"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                    <div className="col-md-4 px-0">
+                      <div className="form-group">
+                        <label>Your Mobile Number</label>
+                        <div className="input-group ">
+                          <input required
+                            type="text"
+                            className="form-control"
+                            placeholder="xxxxxxxxxx"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="btn-box">
+                    <button type="submit" className="">
+                      <span>Search Now</span>
+                    </button>
+                  </div>
+                </form> */}
               </div>
             </div>
           </section>
