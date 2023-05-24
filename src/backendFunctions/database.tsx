@@ -5,16 +5,95 @@ const slotData: {
   time: any;
   name?: string;
   phone?: string;
-}[] = [];
-
-Array.from({ length: 12 }).map((data, index) => {
-  slotData.push({
-    id: index,
+}[] = [
+  {
+    id: 1,
     status: "Empty",
     isEmpty: true,
     time: Date.now(),
-  });
-});
+  },
+  {
+    id: 2,
+    status: "Empty",
+    isEmpty: true,
+    time: Date.now(),
+  },
+  {
+    id: 3,
+    status: "Empty",
+    isEmpty: true,
+    time: Date.now(),
+  },
+  {
+    id: 4,
+    status: "Empty",
+    isEmpty: true,
+    time: Date.now(),
+  },
+  {
+    id: 5,
+    status: "Empty",
+    isEmpty: true,
+    time: Date.now(),
+  },
+  {
+    id: 6,
+    status: "Empty",
+    isEmpty: true,
+    time: Date.now(),
+  },
+  {
+    id: 7,
+    status: "Empty",
+    isEmpty: true,
+    time: Date.now(),
+  },
+  {
+    id: 8,
+    status: "Empty",
+    isEmpty: true,
+    time: Date.now(),
+  },
+  {
+    id: 9,
+    status: "Empty",
+    isEmpty: true,
+    time: Date.now(),
+  },
+  {
+    id: 10,
+    status: "Empty",
+    isEmpty: true,
+    time: Date.now(),
+  },
+  {
+    id: 11,
+    status: "Empty",
+    isEmpty: true,
+    time: Date.now(),
+  },
+  {
+    id: 12,
+    status: "Empty",
+    isEmpty: true,
+    time: Date.now(),
+  },
+];
+
+// export function setSlotData() {
+//   Array.from({ length: 12 }).map((data, index) => {
+//     slotData.push({
+//       id: index,
+//       status: "Empty",
+//       isEmpty: true,
+//       time: Date.now(),
+//     });
+//   });
+// }
+
+// if (slotData.length === 0) {
+//   setSlotData();
+// }
 
 export function getSlotDetails() {
   return [...slotData];
@@ -27,14 +106,15 @@ export function bookSlot(name: string, phone: string) {
       count += 1;
     }
   }
-
-  for (let data of slotData) {
-    if (data.isEmpty) {
-      data.isEmpty = false;
-      data.status = "Booked";
-      data.name = name;
-      data.phone = phone;
-      break;
+  if (count > 0) {
+    for (let data of slotData) {
+      if (data.isEmpty) {
+        data.isEmpty = false;
+        data.status = "Booked";
+        data.name = name;
+        data.phone = phone;
+        break;
+      }
     }
   }
   return count === 0

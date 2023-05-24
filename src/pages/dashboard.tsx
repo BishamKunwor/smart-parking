@@ -37,13 +37,15 @@ async function payViaEsewa(name: any, phone: any, id: any) {
 
 export default function Dashboard() {
   const [slotDetails, setSlotDetails] = useState<any>([]);
+  async function fetchSlotDetails() {
+    let result = await fetch("/api/get-dashboard-details");
+    result = await result.json();
+    setSlotDetails(result);
+  }
+
   useEffect(() => {
-    (async function fetchSlotDetails() {
-      let result = await fetch("/api/get-dashboard-details");
-      result = await result.json();
-      setSlotDetails(result);
-    })();
-  });
+    fetchSlotDetails();
+  }, []);
   return (
     <section className="min-h-screen bg-slate-100 py-12">
       <div className="mb-8 flex container mx-auto gap-20">
@@ -84,6 +86,7 @@ export default function Dashboard() {
                     } else {
                       message.success(response.message);
                     }
+                    await fetchSlotDetails();
                   }}
                 >
                   Mark Booked
@@ -96,6 +99,7 @@ export default function Dashboard() {
                     onClick={async () => {
                       console.log("click");
                       await payViaEsewa(data.name, data.phone, data.id);
+                      await fetchSlotDetails();
                     }}
                   >
                     Pay Via Esewa
@@ -104,12 +108,12 @@ export default function Dashboard() {
                     className="px-6 border text-xl rounded-full hover:bg-green-500 transition-all py-2"
                     onClick={async () => {
                       (async function updateSlotInfo() {
-                        let response = await fetch("/api/payment-sucessful", {
+                        let response = (await fetch("/api/payment-sucessful", {
                           method: "POST",
                           body: JSON.stringify({
                             id: data.id,
                           }),
-                        }) as any;
+                        })) as any;
                         response = await response.json();
                         console.log(response);
                         if (response.error) {
@@ -117,6 +121,7 @@ export default function Dashboard() {
                         } else {
                           message.success(response.message);
                         }
+                        await fetchSlotDetails();
                       })();
                     }}
                   >
