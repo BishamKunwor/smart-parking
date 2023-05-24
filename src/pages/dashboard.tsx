@@ -71,12 +71,12 @@ export default function Dashboard() {
                 <button
                   className="px-6 border text-xl rounded-full hover:bg-green-500 transition-all py-2"
                   onClick={async () => {
-                    let response = await fetch("/api/marked-booked", {
+                    let response = (await fetch("/api/marked-booked", {
                       method: "POST",
                       body: JSON.stringify({
                         id: data.id,
                       }),
-                    });
+                    })) as any;
                     response = await response.json();
                     console.log(response);
                     if (response.error) {
@@ -109,7 +109,7 @@ export default function Dashboard() {
                           body: JSON.stringify({
                             id: data.id,
                           }),
-                        });
+                        }) as any;
                         response = await response.json();
                         console.log(response);
                         if (response.error) {

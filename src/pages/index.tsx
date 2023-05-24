@@ -147,7 +147,7 @@ export default function Home() {
                         name: data.name,
                         phone: data.phone,
                       }),
-                    });
+                    }) as any;
                     postData = await postData.json();
                     console.log(postData);
                     if (postData.error) {

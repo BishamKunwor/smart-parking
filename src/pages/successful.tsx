@@ -4,15 +4,16 @@ import { message } from "antd";
 export default function PaymentSuccessful() {
   const router = useRouter();
   if (router.query.oid) {
-    const splittedData = router.query.oid.split("-");
+    const data = router.query.oid as any;
+    const splittedData = data.split("-");
     if (splittedData[2]) {
       (async function updateSlotInfo() {
-        let response = await fetch("/api/payment-sucessful", {
+        let response = (await fetch("/api/payment-sucessful", {
           method: "POST",
           body: JSON.stringify({
             id: splittedData[2],
           }),
-        });
+        })) as any;
         response = await response.json();
         console.log(response);
         if (response.error) {
